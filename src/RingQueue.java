@@ -23,6 +23,8 @@ public class RingQueue<E> {
         producerSemaphore = new Semaphore(1);
         ConsumerSemaphore = new Semaphore(1);
     }
+
+    // return true if head cursor can be moved in order to add new item to the head of the queue, otherwise false.
     private boolean canMoveHeadCursor() {
         if (canWrite) {
 
@@ -45,6 +47,8 @@ public class RingQueue<E> {
         }
         return false;
     }
+
+    // return true if tail cursor can be moved in order to read and remove existing item from the tail of the queue, otherwise false.
     private boolean canMoveTailCursor() {
         if (canRead) {
 
@@ -64,6 +68,8 @@ public class RingQueue<E> {
         }
         return false;
     }
+
+    //Add new item to the queue. return true if successfully added otherwise false.
     public boolean add(E e) {
         try {
             producerSemaphore.acquire();
@@ -79,6 +85,7 @@ public class RingQueue<E> {
         return false;
 
     }
+    //read and remove item from the queue. return the item  if successfully red and removed otherwise null;
 
     public E remove() {
         try {
@@ -97,9 +104,10 @@ public class RingQueue<E> {
         return null;
     }
 
+    // Method to print the current ring buffer queue contents
     public synchronized void printActionSummery(String type, String itemValue) {
-        System.out.print(type+" :" + itemValue + "> |");
-        Arrays.asList(buffer).stream().forEach(e -> System.out.print(((e!= null)?e+"":" ")+"|") );
+        System.out.print(type + " :" + itemValue + "> |");
+        Arrays.asList(buffer).stream().forEach(e -> System.out.print(((e != null) ? e + "" : " ") + "|"));
         System.out.println("");
     }
 }
